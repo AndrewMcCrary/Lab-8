@@ -4,7 +4,7 @@ template <typename T>
 class Node
 {
 public:
-	Node(Node* _next = nullptr, Node* _prev = nullptr);
+	Node(T _data);
 	~Node();
 	Node* Next = nullptr;
 	Node* Prev = nullptr;
@@ -15,17 +15,19 @@ private:
 };
 
 template<typename T>
-inline Node<T>::Node(Node* _next, Node* _prev)
+inline Node<T>::Node(T _data)
 {
-	this->Next = _next;
-	this->Prev = _prev;
+	this->data = _data;
 }
 
 template<typename T>
 inline Node<T>::~Node()
 {
-	if (this->Prev != nullptr)
+	if (this->Next && this->Prev) {
 		this->Prev->Next = this->Next;
+		this->Next->Prev = this->Prev;
+	}
+	delete this;
 }
 
 template<typename T>
