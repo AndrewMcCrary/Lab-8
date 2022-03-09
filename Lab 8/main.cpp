@@ -1,10 +1,13 @@
+#pragma once
 #include <string>
 #include <iostream>
 #include "Dubley.h"
-
-#include "Dubley.h"
+#include "Part.h"
 
 int main(void) {
+
+	Dubley<Part> inventory = Dubley<Part>();
+
 	bool connectionTerminated = false;
 	while (!connectionTerminated) {
 		std::cout << "Function Testing Menu\n\n [1] AddItem\n [2] GetItem (removes from list)\n [3] IsInList\n [4] IsEmpty\n" <<
@@ -15,27 +18,27 @@ int main(void) {
 		switch (choice) {
 		case 1:
 			while (correct) {
-				int sku, price, quantity;
-				std::string description, units, leadTime;
+				int sku, quantity, leadTime;
+				double price;
+				std::string description, units;
 
 				std::cout << "\nYou selected [1] AddItem. The following data will need to be provided:\n" <<
 					"Stock Keeping Number | Description\n" <<
 					"               Price | Unit of Measure\n" <<
-					"    Quantity on Hand | Lead Time\n\n";
-				std::cout << "Please provide the following data in order (one entry, no commas): SKU, Price, Quantity\n";
-				std::cin >> sku, price, quantity;
+					"    Quantity on Hand | Lead Time (hours)\n\n";
+				std::cout << "Please provide the following data in order (one entry, no commas): SKU, Price, Quantity, Lead Time\n";
+				std::cin >> sku >> price >> quantity >> leadTime;
 				std::cout << "\n     SKU: " << sku << "\n   Price: " << price << "\nQuantity: " << quantity;
 
 				std::cout << "\nPlease provide the following data in order (separate entries): Description, Units, Lead Time\n";
 				std::getline(std::cin, description);
 				std::getline(std::cin, units);
-				std::getline(std::cin, leadTime);
 				std::cout << "\nDescription: " << description << "\n      Units: " << units << "\n  Lead Time: " << leadTime;
 
-				std::cout << "\nIs your item correct? [1]: yes / [0]: no | ";
+				std::cout << "\nIs your item correct? [0]: yes / [1]: no | ";
 				std::cin >> correct;
 
-				//if (correct) { AddItem(Part(sku, description, price, units, quantity, leadTime)); }
+				if (!correct) { inventory.AddItem(new Node<Part>(Part(sku, description, price, units, quantity, leadTime))); }
 			}
 			break;
 		case 2:
@@ -44,33 +47,42 @@ int main(void) {
 				std::cout << "\nYou selected [2] GetItem. Please provide a Stock Keeping Number (SKU): ";
 				std::cin >> sku;
 			
-				std::cout << "\nYou entered: " << sku << ". Is this correct? [1]: yes / [2]: no | ";
-				//if (correct) { GetItem(sku); }
+				std::cout << "\nYou entered: " << sku << ". Is this correct? [0]: yes / [1]: no | ";
+				std::cin >> correct;
+				if (!correct) { inventory.GetItem(sku); }
 			}
 			break;
 		case 3:
-			std::cout << "\nYou selected [3] IsInList. ";
-
-
-
-		case 4:
-			std::cout << "\nYou selected [4] IsEmpty. ";
-			//std::cout << IsEmpty();
-
-		case 5:
-
-		case 6:
-
-		case 7:
-
-		case 8:
-
-		case 9:
-
-		case 10:
-
-		default:
+			int sku;
+			std::cout << "\nYou selected [3] IsInList. Please provide a Stock Keeping Number (SKU): ";
+			std::cin >> sku;
+			std::cout << inventory.IsInList(sku);
 			break;
+		case 4:
+			std::cout << "\nYou selected [4] IsEmpty. | " << inventory.IsEmpty();
+			break;
+		case 5:
+			std::cout << "\nYou selected [5] Size. | " << inventory.Size();
+			break;
+		case 6:
+			std::cout << "\nYou selected [6] SeeNext. | " << inventory.SeeNext();
+			break;
+		case 7:
+			std::cout << "\nYou selected [7] SeePrev. | " << inventory.SeePrev();
+		case 8:
+			int viewIndex;
+			std::cout << "\nYou selected [8] SeeAt. Please provide an index to view: ";
+			std::cin >> viewIndex;
+			std::cout << inventory.SeeAt(viewIndex);
+		case 9:
+			while (correct) {
+				std::cout << "\nYou selected [9] Reset. Are you sure? [0]: yes / [1]: no";
+				std::cin >> correct;
+				if (!correct) { inventory.Reset(); }
+			}
+			break;
+		default:
+			continue;
 		};
 	
 		std::cout << "\nContinue? [y/n]: ";
