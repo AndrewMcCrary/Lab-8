@@ -12,7 +12,7 @@ public:
 	int getSKU();
 	int getLT();
 	bool inStock();
-	bool available(int month, int day, int year);
+	bool available(int daysFromNow);
 	bool operator==(Part temp);
 	bool operator<(Part temp);
 	bool operator>(Part temp);
@@ -30,7 +30,7 @@ Part::Part()
 {
 }
 
-inline Part::Part(int SKU, std::string desc, double price, std::string UOM, int QOH=0, int LT=2500)
+inline Part::Part(int SKU, std::string desc, double price, std::string UOM, int QOH=0, int LT=5000)
 {
 	this->SKU = SKU;
 	this->description = desc;
@@ -65,46 +65,16 @@ inline bool Part::inStock()
 	return quantityOnHand > 0;
 }
 
-inline bool Part::available(int month, int day, int year)
+inline bool Part::available(int daysFromNow)
 {
 	if (quantityOnHand > 0) {
 		return true;
 	}
 	else {
-		time_t now = time(0);
-		int daysSince = now / 86400;
-		//time_t userDate = 
-		//int LTseconds = this->leadTime*
-
-		/*int Ds;
-		int daysInMonth[12];
-		time_t now = time(0);
-		tm* ltm = localtime(&now);
-		if (ltm->tm_year % 4 == 0) {
-			Ds = 365;
-			daysInMonth = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-		}
-		else {
-			Ds = 366;
-			daysInMonth = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-		}
-		int userDays = day;
-		int currDays = ltm->tm_mday;
-		for (int x = 0; x < 12; x++) {
-			if (x < month) {
-				userDays += daysInMonth[x];
-			}
-			if (x < 1 + ltm->tm_mon) {
-				currDays += daysInMonth[x];
-			}
-		}
-		if (year == 1900 + ltm->tm_year) {
-			return userDays > (currDays + this->getLT());
-		}
-		else {
-			
-		}*/
-		
+		long int now = static_cast<long int> (time(NULL));
+		long int userDesiredDate = (now / 86400) + daysFromNow;
+		long int availableDate = (now / 86400) + this->leadTime;
+		return userDesiredDate >= availableDate;
 	}
 }
 
