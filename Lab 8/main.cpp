@@ -18,28 +18,27 @@ int main(void) {
 		switch (choice) {
 		case 1:
 			while (correct) {
-				int sku, quantity;
+				int sku, quantity, leadTime;
 				double price;
-				std::string description, units, leadTime;
+				std::string description, units;
 
 				std::cout << "\nYou selected [1] AddItem. The following data will need to be provided:\n" <<
 					"Stock Keeping Number | Description\n" <<
 					"               Price | Unit of Measure\n" <<
-					"    Quantity on Hand | Lead Time\n\n";
-				std::cout << "Please provide the following data in order (one entry, no commas): SKU, Price, Quantity\n";
-				std::cin >> sku >> price >> quantity;
+					"    Quantity on Hand | Lead Time (hours)\n\n";
+				std::cout << "Please provide the following data in order (one entry, no commas): SKU, Price, Quantity, Lead Time\n";
+				std::cin >> sku >> price >> quantity >> leadTime;
 				std::cout << "\n     SKU: " << sku << "\n   Price: " << price << "\nQuantity: " << quantity;
 
 				std::cout << "\nPlease provide the following data in order (separate entries): Description, Units, Lead Time\n";
 				std::getline(std::cin, description);
 				std::getline(std::cin, units);
-				std::getline(std::cin, leadTime);
 				std::cout << "\nDescription: " << description << "\n      Units: " << units << "\n  Lead Time: " << leadTime;
 
 				std::cout << "\nIs your item correct? [0]: yes / [1]: no | ";
 				std::cin >> correct;
 
-				if (!correct) { inventory.AddItem(Part(sku, description, price, units, quantity, leadTime)); }
+				if (!correct) { inventory.AddItem(new Node<Part>(Part(sku, description, price, units, quantity, leadTime))); }
 			}
 			break;
 		case 2:
@@ -71,7 +70,10 @@ int main(void) {
 		case 7:
 			std::cout << "\nYou selected [7] SeePrev. | " << inventory.SeePrev();
 		case 8:
-			std::cout << "\nYou selected [8] SeeAt. | " << inventory.SeeAt();
+			int viewIndex;
+			std::cout << "\nYou selected [8] SeeAt. Please provide an index to view: ";
+			std::cin >> viewIndex;
+			std::cout << inventory.SeeAt(viewIndex);
 		case 9:
 			while (correct) {
 				std::cout << "\nYou selected [9] Reset. Are you sure? [0]: yes / [1]: no";
