@@ -103,7 +103,18 @@ inline bool Dubley<T>::IsInList(T var)
 	while (temp != nullptr) {
 		if (temp->data == var)
 			return true;
-		temp = temp->Next
+		temp = temp->Next;
+	}
+	return false;
+}
+
+inline bool Dubley<Part>::IsInList(Part var)
+{
+	Node<Part>* temp = this->_head;
+	while (temp != nullptr) {
+		if (temp->getValue() == var)
+			return true;
+		temp = temp->Next;
 	}
 	return false;
 }
