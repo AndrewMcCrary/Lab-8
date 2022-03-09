@@ -11,6 +11,7 @@ public:
 	~Dubley();
 	void AddItem(Node<T>* var);
 	Node<T>* GetItem(T var);
+	Node<Part>* GetItem(int var);
 	bool IsInList(T var);
 	bool IsEmpty();
 	int Size();
@@ -27,20 +28,16 @@ template<typename T>
 inline Dubley<T>::Dubley(Node<T>* start)
 {
 	this->_head = start;
+	this->Reset();
 }
 
 template<typename T>
 inline Dubley<T>::~Dubley()
 {
-	if (this->IsEmpty())
-		return;
-
-	Node<T>* temp = this->_head;
-	this->Current = this->_head->Next;
 	while (this->_head != nullptr) {
-		this->Current = this->_head;
-		delete temp;
-		temp = next;
+		this->Current = this->_head->Next;
+		delete this->_head;
+		this->_head = this->Current;
 	}
 }
 
@@ -75,7 +72,8 @@ inline Node<T>* Dubley<T>::GetItem(T var)
 {
 	if (this->IsEmpty())
 		return nullptr;
-	Node<T>* temp = this->SeeAt(0);
+
+	Node<T>* temp = this->_head;
 	if (temp->data == var)
 		return temp;
 	do
@@ -87,41 +85,45 @@ inline Node<T>* Dubley<T>::GetItem(T var)
 	return nullptr;
 }
 
+inline Node<Part>* Dubley<Part>::GetItem(int SKU)
+{
+	Node<Part>* temp = this->_head;
+	while (temp != nullptr) {
+		if (temp->getValue().getSKU() == SKU)
+			return temp;
+		temp = temp->Next;
+	}
+	return nullptr;
+}
+
 template<typename T>
 inline bool Dubley<T>::IsInList(T var)
 {
-	if (this->IsEmpty())
-		return false;
-	Node<T>* temp = this->SeeAt(0);
-	if (temp->data == var)
-		return true;
-	do
-	{
-		temp = temp->Next;
+	Node<T>* temp = this->_head;
+	while (temp != nullptr) {
 		if (temp->data == var)
 			return true;
-	} while (temp->Next);
+		temp = temp->Next
+	}
 	return false;
 }
 
 template<typename T>
 inline bool Dubley<T>::IsEmpty()
 {
-	return this->SeeAt(0) == nullptr;
+	return this->_head == nullptr;
 }
 
 template<typename T>
 inline int Dubley<T>::Size()
 {
-	if (this->IsEmpty())
-		return 0;
-	Node<T>* temp = this->SeeAt(0);
-	int i = 1;
-	do
-	{
+	Node<T>* temp = this->_head;
+	int i = 0;
+	while (temp != nullptr) {
 		i++;
 		temp = temp->Next;
-	} while (temp->Next);
+	}
+	return i;
 }
 
 template<typename T>
@@ -140,8 +142,9 @@ inline Node<T>* Dubley<T>::SeePrev()
 template<typename T>
 inline Node<T>* Dubley<T>::SeeAt(int var)
 {
-	if (this->IsEmpty())
+	if (this->Size() >= var)
 		return nullptr;
+
 	Node<T>* temp = Current;
 	while (temp != nullptr)
 		temp = temp->Prev;
@@ -155,5 +158,5 @@ inline Node<T>* Dubley<T>::SeeAt(int var)
 template<typename T>
 inline void Dubley<T>::Reset()
 {
-	this->Current = this->SeeAt(0);
+	this->Current = this->_head;
 }
