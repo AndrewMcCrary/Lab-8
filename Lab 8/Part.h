@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <conio.h>
+#include <iomanip>
 
 using namespace std;
 
@@ -12,10 +13,12 @@ class Part
 public:
 	Part();
 	Part(int SKU, std::string desc, double price, std::string UOM, int QOH = 0, int LT=2500);
-	std::string getPartInfo();
-	double getPrice();
-	int getSKU();
-	int getLT();
+	std::string getPartInfo() { return std::to_string(SKU) + " " + description; }
+    double getPrice() { return this->price; };
+	int getSKU() { return this->SKU; }
+    int getLT() { return this->leadTime; }
+    std::string getUOM() { return this->UOM; }
+    int getQOH() { return this->quantityOnHand; };
     std::string getDescription() { return this->description; }
 	bool inStock();
 	bool available(int daysFromNow);
@@ -51,26 +54,6 @@ inline Part::Part(int SKU, std::string desc, double price, std::string UOM, int 
 	this->UOM = UOM;
 	this->quantityOnHand = QOH;
 	this->leadTime = LT;
-}
-
-inline std::string Part::getPartInfo()
-{
-	return std::to_string(SKU) + " " + description;
-}
-
-inline double Part::getPrice()
-{
-	return this->price;
-}
-
-inline int Part::getSKU()
-{
-	return this->SKU;
-}
-
-inline int Part::getLT()
-{
-	return this->leadTime;
 }
 
 inline bool Part::inStock()
@@ -110,7 +93,7 @@ inline bool Part::operator<(Part temp)
 inline void Part::asciiART()
 {
     int x = 1;
-    while (x <= 3) {
+    while (x <= 4) {
         string input;
         if (x == 1) {
             input = std::to_string(this->getSKU());
@@ -118,10 +101,14 @@ inline void Part::asciiART()
         else if (x == 2) {
             input = this->getDescription();
         }
+        else if (x == 3) {
+            input = this->getUOM();
+        }
         else {
-            input = std::to_string(this->getPrice());
+            input = std::to_string(this->getQOH());
         }
 
+        std::cout << std::setprecision(2) << std::fixed;
         for (int i = 0; i < input.size(); i++)
         {
             if (input[i] == 'A' || input[i] == 'a')
