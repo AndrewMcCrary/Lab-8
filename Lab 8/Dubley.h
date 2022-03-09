@@ -45,44 +45,40 @@ inline Dubley<T>::~Dubley()
 template<typename T>
 inline void Dubley<T>::AddItem(Node<T>* var)
 {
-	Node<T>* temp = this->_head;
-	while (temp != nullptr) {
-		if (temp->getValue() > var->getValue()) {
-			// Stick in middle or first
-			if (temp->Prev != nullptr)
-				temp->Prev->Next = var;
-			else
-				this->_head = var;
-
-			temp->Prev = var;
-		}
-		else if (temp->Next == nullptr) {
-			// Stick on end
-			temp->Next = var;
-		}
-
-		temp = temp->Next;
+	if (this->IsEmpty()) {
+		this->_head = var;
+		return;
 	}
+	else if (this->_head->getValue() > var->getValue()) {
+		this->_head->Prev = var;
+		var->Next = this->_head;
+		this->_head = var;
+	}
+	else {	
+		Node<T>* temp = this->_head;
+		while (temp != nullptr) {
+			if (temp->getValue() > var->getValue()) {
+				var->Prev = temp->Prev;
+				var->Next = temp;
+				temp->Prev->Next = var;
+				temp->Prev = var;
+				return;
+			}
 
-	// Temp should be shifted behind the new node
-
+			temp = temp->Next;
+		}
+	}
 }
 
 template<typename T>
 inline Node<T>* Dubley<T>::GetItem(T var)
 {
-	if (this->IsEmpty())
-		return nullptr;
-
 	Node<T>* temp = this->_head;
-	if (temp->data == var)
-		return temp;
-	do
-	{
-		temp = temp->Next;
-		if (temp->data == var)
+	while (temp != nullptr) {
+		if (temp->getValue() == var)
 			return temp;
-	} while (temp->Next);
+		temp = temp->Next;
+	}
 	return nullptr;
 }
 
@@ -148,6 +144,7 @@ inline Node<T>* Dubley<T>::SeeNext()
 template<typename T>
 inline Node<T>* Dubley<T>::SeePrev()
 {
+	this->Current = this->Current->Prev;
 	return this->Current->Prev;
 }
 
@@ -157,10 +154,7 @@ inline Node<T>* Dubley<T>::SeeAt(int var)
 	if (this->Size() >= var)
 		return nullptr;
 
-	Node<T>* temp = Current;
-	while (temp != nullptr)
-		temp = temp->Prev;
-
+	Node<T>* temp = _head;
 	for (int i = 0; i < var; i++)
 		temp = temp->Next;
 
