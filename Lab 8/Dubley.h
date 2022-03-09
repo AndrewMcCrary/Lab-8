@@ -12,6 +12,7 @@ public:
 	void AddItem(Node<T>* var);
 	Node<T>* GetItem(T var);
 	Node<Part>* GetItem(int var);
+	bool IsInList(int sku);
 	bool IsInList(T var);
 	bool IsEmpty();
 	int Size();
@@ -108,11 +109,11 @@ inline bool Dubley<T>::IsInList(T var)
 	return false;
 }
 
-inline bool Dubley<Part>::IsInList(Part var)
+inline bool Dubley<Part>::IsInList(int sku)
 {
 	Node<Part>* temp = this->_head;
 	while (temp != nullptr) {
-		if (temp->getValue() == var)
+		if (temp->getValue().getSKU() == sku)
 			return true;
 		temp = temp->Next;
 	}
