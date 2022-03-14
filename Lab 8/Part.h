@@ -76,36 +76,43 @@ inline bool Part::available(int daysFromNow)
 
 inline bool Part::operator==(Part temp)
 {
-	return this->getSKU() == temp.getSKU();
+	return this->SKU == temp.getSKU();
 }
 
 inline bool Part::operator>(Part temp)
 {
-	return this->getSKU() > temp.getSKU();
+	return this->SKU > temp.getSKU();
 }
 
 
 inline bool Part::operator<(Part temp)
 {
-	return this->getSKU() < temp.getSKU();
+	return this->SKU < temp.getSKU();
 }
 
+/*
+Program: ASCII ART Generator
+Description: Design text with ascii art
+Author: Lord Hypersonic
+Email: lordhypersonic.522@gmail.com
+Website: www.lordhypersonic.blogspot.com
+*/
 inline void Part::asciiART()
 {
     int x = 1;
     while (x <= 4) {
         string input;
         if (x == 1) {
-            input = std::to_string(this->getSKU());
+            input = "Stock #: " + std::to_string(SKU);
         }
         else if (x == 2) {
-            input = this->getDescription();
+            input = "Desc: " + description;
         }
         else if (x == 3) {
-            input = this->getUOM();
+            input = "Sold by: " + UOM;
         }
         else {
-            input = std::to_string(this->getQOH());
+            input = "Quantity: " + std::to_string(quantityOnHand);
         }
 
         std::cout << std::setprecision(2) << std::fixed;
