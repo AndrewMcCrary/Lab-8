@@ -11,7 +11,7 @@ int main(void) {
 	bool connectionTerminated = false;
 	while (!connectionTerminated) {
 		std::cout << "Function Testing Menu\n\n [1] AddItem\n [2] GetItem (removes from list)\n [3] IsInList\n [4] IsEmpty\n" <<
-			" [5] Size\n [6] SeeNext\n [7] SeePrev\n [8] SeeAt\n [9] Reset\n[10] Destructor\n\n";
+			" [5] Size\n [6] SeeNext\n [7] SeePrev\n [8] SeeAt\n [9] Reset\n[10] Destructor\n[11] ASCII Art\n\n";
 		int choice = 0;
 		std::cin >> choice;
 		bool correct = true;
@@ -31,6 +31,7 @@ int main(void) {
 				std::cout << "\n     SKU: " << sku << "\n   Price: " << price << "\nQuantity: " << quantity;
 
 				std::cout << "\nPlease provide the following data in order (separate entries): Description, Units, Lead Time\n";
+				cin.ignore();
 				std::getline(std::cin, description);
 				std::getline(std::cin, units);
 				std::cout << "\nDescription: " << description << "\n      Units: " << units << "\n  Lead Time: " << leadTime;
@@ -49,20 +50,31 @@ int main(void) {
 			
 				std::cout << "\nYou entered: " << sku << ". Is this correct? [0]: yes / [1]: no | ";
 				std::cin >> correct;
-				if (!correct) { inventory.GetItem(sku); }
+				if (!correct) { inventory.GetItem(sku)->getValue().asciiART(); }
 			}
 			break;
 		case 3:
 			int sku;
 			std::cout << "\nYou selected [3] IsInList. Please provide a Stock Keeping Number (SKU): ";
 			std::cin >> sku;
-			std::cout << inventory.IsInList(sku);
+			if (inventory.IsInList(sku) == 0) {
+				std::cout << sku << " is NOT in list." << endl;
+			}
+			else {
+				std::cout << sku << " is in list." << endl;
+			}
 			break;
 		case 4:
-			std::cout << "\nYou selected [4] IsEmpty. | " << inventory.IsEmpty();
+			std::cout << "\nYou selected [4] IsEmpty." << endl;
+			if (inventory.IsEmpty() == 0) {
+				std::cout << "List is NOT empty." << endl;
+			}
+			else {
+				std::cout << "List is empty." << endl;
+			}
 			break;
 		case 5:
-			std::cout << "\nYou selected [5] Size. | " << inventory.Size();
+			std::cout << "\nYou selected [5] Size. | Size is: " << inventory.Size() << endl;
 			break;
 		case 6:
 			std::cout << "\nYou selected [6] SeeNext. | " << inventory.SeeNext();
@@ -81,11 +93,14 @@ int main(void) {
 				if (!correct) { inventory.Reset(); }
 			}
 			break;
+		case 11:
+			std::cout << "\nYou selected [11] ASCII Art.\n\n";
+			inventory.printList();
 		default:
 			continue;
 		};
 	
-		std::cout << "\nContinue? [y/n]: ";
+		std::cout << "\nContinue? [0 = yes/1 = no]: ";
 		std::cin >> connectionTerminated;
 	
 	}	

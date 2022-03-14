@@ -20,6 +20,7 @@ public:
 	Node<T>* SeePrev();
 	Node<T>* SeeAt(int var);
 	void Reset();
+	void printList();
 private:
 	Node<T>* Current = nullptr;
 	Node<T>* _head = nullptr;
@@ -56,6 +57,7 @@ inline void Dubley<T>::AddItem(Node<T>* var)
 	}
 	else {	
 		Node<T>* temp = this->_head;
+		Node<T>* addToEnd = this->_head;
 		while (temp != nullptr) {
 			if (temp->getValue() > var->getValue()) {
 				var->Prev = temp->Prev;
@@ -64,16 +66,23 @@ inline void Dubley<T>::AddItem(Node<T>* var)
 				temp->Prev = var;
 				return;
 			}
-
+			addToEnd = temp;
 			temp = temp->Next;
 		}
+		addToEnd->Next = var;
+		var->Prev = addToEnd;
 	}
 }
 
 template<typename T>
 inline Node<T>* Dubley<T>::GetItem(T var)
 {
-	Node<T>* temp = this->_head;
+	Node<T>* temp = this->_head;	
+	/*if (this->_head->data == var) {
+		this->_head = this->_head->Next;
+		this->_head->Prev = nullptr;
+		return delete temp;
+	}*/
 	while (temp != nullptr) {
 		if (temp->getValue() == var)
 			return temp;
@@ -165,4 +174,14 @@ template<typename T>
 inline void Dubley<T>::Reset()
 {
 	this->Current = this->_head;
+}
+
+inline void Dubley<Part>::printList()
+{
+	Node<Part>* temp = this->_head;
+	while (temp != nullptr) {
+		cout << "\n\nPart Details:\n\n";
+		temp->getValue().asciiART();
+		temp = temp->Next;
+	}
 }
