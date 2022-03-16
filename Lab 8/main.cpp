@@ -84,7 +84,9 @@ int main(void) {
 			std::cout << "\nYou selected [5] Size. | Size is: " << inventory.Size() << endl;
 			break;
 		case 6:
-			std::cout << "\nYou selected [6] SeeNext. | " << inventory.SeeNext();
+			std::cout << "\nYou selected [6] SeeNext. | \n";
+			
+			inventory.SeeNext()->getValue().asciiART();
 			break;
 		case 7:
 			std::cout << "\nYou selected [7] SeePrev. | " << inventory.SeePrev();
@@ -92,13 +94,17 @@ int main(void) {
 			int viewIndex;
 			std::cout << "\nYou selected [8] SeeAt. Please provide an index to view: ";
 			std::cin >> viewIndex;
-			std::cout << inventory.SeeAt(viewIndex);
+			inventory.SeeAt(viewIndex)->getValue().asciiART();
+			break;
 		case 9:
 			while (correct) {
 				std::cout << "\nYou selected [9] Reset. Are you sure? [0]: yes / [1]: no";
 				std::cin >> correct;
 				if (!correct) { inventory.Reset(); }
 			}
+			break;
+		case 10:
+			// Must add Destructor option implementation
 			break;
 		case 11:
 			std::cout << "\nYou selected [11] ASCII Art.\n\n";

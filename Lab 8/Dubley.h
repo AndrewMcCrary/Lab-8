@@ -48,6 +48,7 @@ inline void Dubley<T>::AddItem(Node<T>* var)
 {
 	if (this->IsEmpty()) {
 		this->_head = var;
+		this->Current = this->_head;
 		return;
 	}
 	else if (this->_head->getValue() > var->getValue()) {
@@ -175,6 +176,12 @@ inline int Dubley<T>::Size()
 template<typename T>
 inline Node<T>* Dubley<T>::SeeNext()
 {
+	if (this->IsEmpty()) {
+		return nullptr;
+	}
+	if (this->Current->Next == nullptr) {
+		return nullptr;
+	}
 	this->Current = this->Current->Next;
 	return Current;
 }
@@ -189,13 +196,14 @@ inline Node<T>* Dubley<T>::SeePrev()
 template<typename T>
 inline Node<T>* Dubley<T>::SeeAt(int var)
 {
-	if (this->Size() >= var)
+	if (this->Size() <= var) {
 		return nullptr;
-
-	Node<T>* temp = _head;
-	for (int i = 0; i < var; i++)
+	}
+	Node<T>* temp = this->_head;
+	for (int i = 0; i < var; i++) {
 		temp = temp->Next;
-
+	}
+	this->Current = temp;
 	return temp;
 }
 
@@ -208,9 +216,14 @@ inline void Dubley<T>::Reset()
 inline void Dubley<Part>::printList()
 {
 	Node<Part>* temp = this->_head;
-	while (temp != nullptr) {
-		cout << "\n\nPart Details:\n\n";
-		temp->getValue().asciiART();
-		temp = temp->Next;
+	if (temp == nullptr) {
+		std::cout << "\nList is empty.\n\n";
+	}
+	else {
+		while (temp != nullptr) {
+			cout << "\n\nPart Details:\n\n";
+			temp->getValue().asciiART();
+			temp = temp->Next;
+		}
 	}
 }
