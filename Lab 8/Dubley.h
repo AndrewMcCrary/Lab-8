@@ -77,27 +77,56 @@ inline void Dubley<T>::AddItem(Node<T>* var)
 template<typename T>
 inline Node<T>* Dubley<T>::GetItem(T var)
 {
-	Node<T>* temp = this->_head;	
-	/*if (this->_head->data == var) {
+	if (this->IsEmpty()) {
+		return nullptr;
+	}
+	Node<T>* temp = this->_head;
+	if (temp->getValue() == var) {
 		this->_head = this->_head->Next;
-		this->_head->Prev = nullptr;
-		return delete temp;
-	}*/
-	while (temp != nullptr) {
-		if (temp->getValue() == var)
+		if (this->_head != nullptr) {
+			this->_head->Prev = nullptr;
+		}
+		return temp;
+	}
+	while (temp->Next != nullptr) {
+		if (temp->getValue() == var) {
+			temp->Prev->Next = temp->Next;
+			temp->Next->Prev = temp->Prev;
 			return temp;
+		}
 		temp = temp->Next;
+	}
+	if (temp->getValue() == var) {
+		temp->Prev->Next = nullptr;
+		return temp;
 	}
 	return nullptr;
 }
 
 inline Node<Part>* Dubley<Part>::GetItem(int SKU)
 {
+	if (this->IsEmpty()) {
+		return nullptr;
+	}
 	Node<Part>* temp = this->_head;
-	while (temp != nullptr) {
-		if (temp->getValue().getSKU() == SKU)
+	if (temp->getValue().getSKU() == SKU) {
+		this->_head = this->_head->Next;
+		if (this->_head != nullptr) {
+			this->_head->Prev = nullptr;
+		}
+		return temp;
+	}
+	while (temp->Next != nullptr) {
+		if (temp->getValue().getSKU() == SKU) {
+			temp->Prev->Next = temp->Next;
+			temp->Next->Prev = temp->Prev;
 			return temp;
+		}
 		temp = temp->Next;
+	}
+	if (temp->getValue().getSKU() == SKU) {
+		temp->Prev->Next = nullptr;
+		return temp;
 	}
 	return nullptr;
 }

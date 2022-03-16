@@ -50,7 +50,14 @@ int main(void) {
 			
 				std::cout << "\nYou entered: " << sku << ". Is this correct? [0]: yes / [1]: no | ";
 				std::cin >> correct;
-				if (!correct) { inventory.GetItem(sku)->getValue().asciiART(); }
+				if (!correct) { 
+					if (inventory.IsInList(sku) == 0) {
+						cout << "\nItem may not be in list, also check if list is empty.\n";
+					}
+					else {
+						inventory.GetItem(sku)->getValue().asciiART();
+					}
+				}
 			}
 			break;
 		case 3:
