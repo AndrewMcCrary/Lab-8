@@ -176,21 +176,21 @@ inline int Dubley<T>::Size()
 template<typename T>
 inline Node<T>* Dubley<T>::SeeNext()
 {
-	if (this->IsEmpty()) {
-		return nullptr;
-	}
-	if (this->Current->Next == nullptr) {
+	if (Current->Next == nullptr || IsEmpty() != 0) {
 		return nullptr;
 	}
 	this->Current = this->Current->Next;
-	return Current;
+	return this->Current;
 }
 
 template<typename T>
 inline Node<T>* Dubley<T>::SeePrev()
 {
+	if (Current == _head || IsEmpty() != 0) {
+		return nullptr;
+	}
 	this->Current = this->Current->Prev;
-	return this->Current->Prev;
+	return this->Current;
 }
 
 template<typename T>

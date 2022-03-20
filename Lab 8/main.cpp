@@ -7,6 +7,11 @@
 int main(void) {
 
 	Dubley<Part> inventory = Dubley<Part>();
+	inventory.AddItem(new Node<Part>(Part(1, "1", 1.0, "1")));
+	inventory.AddItem(new Node<Part>(Part(2, "1", 1.0, "1")));
+	inventory.AddItem(new Node<Part>(Part(3, "1", 1.0, "1")));
+	inventory.AddItem(new Node<Part>(Part(4, "1", 1.0, "1")));
+	inventory.AddItem(new Node<Part>(Part(5, "1", 1.0, "1")));
 
 	bool connectionTerminated = false;
 	while (!connectionTerminated) {
@@ -85,11 +90,12 @@ int main(void) {
 			break;
 		case 6:
 			std::cout << "\nYou selected [6] SeeNext. | \n";
-			
 			inventory.SeeNext()->getValue().asciiART();
 			break;
 		case 7:
-			std::cout << "\nYou selected [7] SeePrev. | " << inventory.SeePrev();
+			std::cout << "\nYou selected [7] SeePrev. | \n";
+			inventory.SeePrev()->getValue().asciiART();
+			break;
 		case 8:
 			int viewIndex;
 			std::cout << "\nYou selected [8] SeeAt. Please provide an index to view: ";
@@ -104,7 +110,8 @@ int main(void) {
 			}
 			break;
 		case 10:
-			// Must add Destructor option implementation
+			std::cout << "\nYou selected [10] Destructor. | \n\n";
+			inventory.~Dubley();
 			break;
 		case 11:
 			std::cout << "\nYou selected [11] ASCII Art.\n\n";
