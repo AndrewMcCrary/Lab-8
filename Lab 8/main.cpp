@@ -6,13 +6,6 @@
 
 int main(void) {
 
-	Dubley<Part> inventory = Dubley<Part>();
-	inventory.AddItem(new Node<Part>(Part(1, "1", 1.0, "1")));
-	inventory.AddItem(new Node<Part>(Part(2, "1", 1.0, "1")));
-	inventory.AddItem(new Node<Part>(Part(3, "1", 1.0, "1")));
-	inventory.AddItem(new Node<Part>(Part(4, "1", 1.0, "1")));
-	inventory.AddItem(new Node<Part>(Part(5, "1", 1.0, "1")));
-
 	bool connectionTerminated = false;
 	while (!connectionTerminated) {
 		std::cout << "Function Testing Menu\n\n [1] AddItem\n [2] GetItem (removes from list)\n [3] IsInList\n [4] IsEmpty\n" <<
