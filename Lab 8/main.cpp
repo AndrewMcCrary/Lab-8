@@ -6,6 +6,8 @@
 
 int main(void) {
 
+	Dubley<Part> inventory = Dubley<Part>();
+
 	bool connectionTerminated = false;
 	while (!connectionTerminated) {
 		std::cout << "Function Testing Menu\n\n [1] AddItem\n [2] GetItem (removes from list)\n [3] IsInList\n [4] IsEmpty\n" <<
