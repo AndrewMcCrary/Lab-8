@@ -27,7 +27,6 @@ inline Node<T>::~Node()
 		this->Prev->Next = this->Next;
 		this->Next->Prev = this->Prev;
 	}
-	delete this;
 }
 
 template<typename T>

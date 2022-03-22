@@ -119,4 +119,6 @@ int main(void) {
 		std::cin >> connectionTerminated;
 	
 	}	
+
+	return 0;
 }
